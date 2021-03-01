@@ -7,6 +7,7 @@
 #ifdef _WIN32
 #define SSL_ENGINE_PATH "..\\..\\..\\Debug\\srndengine.dll"
 #else
+// SO_PATH needs to be absolute, so the engine must be installed
 #define SSL_ENGINE_PATH "/usr/lib/x86_64-linux-gnu/engines-1.1/srndengine.so"
 #endif
 
@@ -80,7 +81,11 @@ int main() {
     }
 
     printf("RAND_bytes: ");
-    for (size_t i = 0; i < sizeof(b); i++) printf("%x", b[i]);
+
+    for (size_t i = 0; i < sizeof(b); i++) {
+        printf("%x", b[i]);
+    }
+
     printf("\n");
 
 cleanup:

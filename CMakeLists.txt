@@ -34,5 +34,3 @@ if(UNIX)
 endif()
 
 add_subdirectory(app)
-
-#add_dependencies(srndtool ${PROJECT_NAME})

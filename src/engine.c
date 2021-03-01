@@ -28,8 +28,6 @@ bind(
         goto cleanup;
     }
 
-    rc = 1;
-
 cleanup:
     return rc;
 }
