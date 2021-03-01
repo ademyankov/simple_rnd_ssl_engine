@@ -5,7 +5,11 @@ project(srndengine VERSION 1.0.0 DESCRIPTION "Simple RND OpenSSL Engine")
 include(GNUInstallDirs)
 find_package(OpenSSL REQUIRED)
 
-set(SOURCE src/engine.c)
+set(SOURCE
+    src/engine.c
+    src/rnd.c
+    src/engine.h
+)
 
 add_library(${PROJECT_NAME} MODULE ${SOURCE})
 

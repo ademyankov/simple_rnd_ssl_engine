@@ -1,10 +1,7 @@
-#include <stdio.h>
-#include <openssl/engine.h>
+#include "engine.h"
 
 #define ENGINE_ID   "srndengine"
 #define ENGINE_NAME "Simple RND OpenSSL Engine"
-
-#define LOG_SEVERE(msg) fprintf(stderr, "%s, err = 0x%lx\n", msg, ERR_get_error())
 
 static
 int
@@ -22,6 +19,12 @@ bind(
     rc = ENGINE_set_name(e, ENGINE_NAME);
     if (!rc) {
         LOG_SEVERE("ENGINE_set_name failed");
+        goto cleanup;
+    }
+
+    rc = srnd_ssl_rand_setup(e);
+    if (!rc) {
+        LOG_SEVERE("srnd_ssl_rand_setup failed");
         goto cleanup;
     }
 

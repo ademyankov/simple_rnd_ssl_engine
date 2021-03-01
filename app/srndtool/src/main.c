@@ -2,10 +2,10 @@
 #include <string.h>
 #include <openssl/engine.h>
 
-#define LOG_SEVERE(msg) fprintf(stderr, "%s, err = 0x%lx\n", msg, ERR_get_error())
+#define LOG_SEVERE(msg) fprintf(stderr, "%s, err: 0x%lx\n", msg, ERR_get_error())
 
 #ifdef _WIN32
-#define SSL_ENGINE_PATH ".\\srnd\\Debug\\srndengine.dll"
+#define SSL_ENGINE_PATH "..\\..\\..\\Debug\\srndengine.dll"
 #else
 #define SSL_ENGINE_PATH "/usr/lib/x86_64-linux-gnu/engines-1.1/srndengine.so"
 #endif
@@ -66,22 +66,22 @@ int main() {
 
     printf("SSL Engine: %s\n", ENGINE_get_name(e));
 
-    /*
     rc = RAND_set_rand_engine(e);
     if (!rc) {
-        SSL_LOG_SEVERE("RAND_set_rand_engine failed");
+        LOG_SEVERE("RAND_set_rand_engine failed");
         goto cleanup;
     }
 
     unsigned char b[32];
-    rc = RAND_bytes(b, 32);
+    rc = RAND_bytes(b, (int)sizeof(b));
     if (!rc) {
-        SSL_LOG_SEVERE("RAND_bytes failed");
+        LOG_SEVERE("RAND_bytes failed");
         goto cleanup;
     }
 
-    hexdump(NULL, b, 32, stdout);
-    */
+    printf("RAND_bytes: ");
+    for (size_t i = 0; i < sizeof(b); i++) printf("%x", b[i]);
+    printf("\n");
 
 cleanup:
     if (e) ENGINE_free(e);
