@@ -4,9 +4,9 @@ project(srndtool VERSION 1.0.0 DESCRIPTION "SRND Tool to use Simple RND OpenSSL 
 
 set(SOURCE src/main.c)
 
-find_package(OpenSSL REQUIRED)
-
 if(MSVC)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+
     list(APPEND
         SOURCE
             ${OPENSSL_INCLUDE_DIR}/openssl/applink.c

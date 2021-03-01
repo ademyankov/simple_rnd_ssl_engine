@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <openssl/engine.h>
 
-static const char* engine_id = "dummyengine";
-static const char* engine_name = "Dummy OpenSSL Engine; Alex Demyankov. 2021, No rights reserved ;)";
+#define ENGINE_ID   "srndengine"
+#define ENGINE_NAME "Simple RND OpenSSL Engine"
 
-#define ERROR(msg) fprintf(stderr, "%s, err = 0x%lx\n", msg, ERR_get_error())
+#define LOG_SEVERE(msg) fprintf(stderr, "%s, err = 0x%lx\n", msg, ERR_get_error())
 
 static
 int
@@ -13,21 +13,21 @@ bind(
     const char* id
 )
 {
-    int rc = ENGINE_set_id(e, engine_id);
+    int rc = ENGINE_set_id(e, ENGINE_ID);
     if (!rc) {
-        ERROR("ENGINE_set_id failed");
-        goto error;
+        LOG_SEVERE("ENGINE_set_id failed");
+        goto cleanup;
     }
 
-    rc = ENGINE_set_name(e, engine_name);
+    rc = ENGINE_set_name(e, ENGINE_NAME);
     if (!rc) {
-        ERROR("ENGINE_set_name failed");
-        goto error;
+        LOG_SEVERE("ENGINE_set_name failed");
+        goto cleanup;
     }
 
     rc = 1;
 
-error:
+cleanup:
     return rc;
 }
 
